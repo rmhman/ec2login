@@ -16,6 +16,11 @@ except ImportError:
     print("Error: boto3 is not installed. Please run: pip install ec2login")
     sys.exit(1)
 
+REGION_MAP = {
+    "use1": "us-east-1",
+    "use2": "us-east-2",
+}
+
 
 def get_aws_profile():
     """Get AWS profile from environment or prompt user to select one."""
@@ -170,17 +175,18 @@ def main():
     )
 
     args = parser.parse_args()
+    region = REGION_MAP[args.region]
 
     # Get profile
     profile = get_aws_profile()
     print(f"Using profile: {profile}")
 
     # Fetch instances
-    print(f"Fetching instances from region {args.region}...")
-    instances = get_running_instances(profile, args.region)
+    print(f"Fetching instances from region {region}...")
+    instances = get_running_instances(profile, region)
 
     # Select instance
-    instance_id = select_instance_with_fzf(instances, args.region)
+    instance_id = select_instance_with_fzf(instances, region)
 
     # Find the selected instance details
     selected_instance = next((i for i in instances if i["id"] == instance_id), None)
@@ -188,7 +194,7 @@ def main():
         print(f"Connecting to {selected_instance['display']} ({instance_id})...")
 
     # Connect
-    connect_to_instance(instance_id, profile, args.region)
+    connect_to_instance(instance_id, profile, region)
 
 
 if __name__ == "__main__":

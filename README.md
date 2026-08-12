@@ -14,6 +14,7 @@ Interactive AWS EC2 instance selector with SSM Session Manager integration. Quic
 ## Requirements
 
 - **Python**: 3.7+
+- **pipx**: Installs Python CLI tools in isolated environments (install via `brew install pipx` on macOS)
 - **AWS CLI**: v2 (for SSM Session Manager)
 - **fzf**: Fuzzy finder (install via `brew install fzf` on macOS)
 - **boto3**: Python AWS SDK
@@ -24,12 +25,12 @@ Interactive AWS EC2 instance selector with SSM Session Manager integration. Quic
 ### Quick Install (Recommended)
 
 ```bash
-pip install -e /Users/ross/repos/awstools/ec2login
+pipx install -e /Users/ross/repos/awstools/ec2login
 ```
 
 This will:
 
-1. Install boto3 dependency automatically
+1. Install boto3 dependency automatically in an isolated environment
 2. Create an `ec2login` command available in your PATH
 3. Link to the source code (changes are reflected immediately)
 
@@ -39,13 +40,13 @@ If you want to modify the code and have changes take effect immediately:
 
 ```bash
 cd /Users/ross/repos/awstools/ec2login
-pip install -e .
+pipx install -e .
 ```
 
 ### Install from PyPI (when published)
 
 ```bash
-pip install ec2login
+pipx install ec2login
 ```
 
 ## Usage
@@ -122,7 +123,7 @@ Instances are displayed as: `{Display Name} | {Instance-ID}`
 ### Error: "boto3 is not installed"
 
 ```bash
-pip install -r requirements.txt
+pipx install -e /Users/ross/repos/awstools/ec2login --force
 ```
 
 ### Error: "fzf is not installed"
@@ -157,7 +158,7 @@ The EC2 instance must have:
 ## Uninstall
 
 ```bash
-rm ~/bin/ec2login
+pipx uninstall ec2login
 ```
 
 ## Contributing
