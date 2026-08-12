@@ -44,18 +44,24 @@ def get_aws_profile():
         print("Error: No AWS profiles found in ~/.aws/config")
         sys.exit(1)
 
-    print("Select an AWS profile:")
-    for i, p in enumerate(profiles, 1):
-        print(f"{i}. {p}")
+    try:
+        result = subprocess.run(
+            ["fzf", "--header", "Select an AWS profile"],
+            input="\n".join(profiles),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
 
-    while True:
-        try:
-            choice = int(input("Enter profile number: "))
-            if 1 <= choice <= len(profiles):
-                return profiles[choice - 1]
-        except (ValueError, IndexError):
-            pass
-        print("Invalid choice. Please try again.")
+        if result.returncode != 0:
+            # User cancelled
+            sys.exit(0)
+
+        return result.stdout.strip()
+
+    except FileNotFoundError:
+        print("Error: fzf is not installed. Please install it (e.g., brew install fzf)")
+        sys.exit(1)
 
 
 def get_running_instances(profile, region):
