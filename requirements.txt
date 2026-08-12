@@ -1,0 +1,10 @@
+# This file is kept for reference only.
+# Dependencies are defined in pyproject.toml and setup.py
+# 
+# To install the package with all dependencies:
+#   pip install -e .
+#
+# Or with pipx (recommended):
+#   pipx install -e .
+
+boto3>=1.26.0
